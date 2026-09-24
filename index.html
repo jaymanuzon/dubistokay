@@ -87,7 +87,6 @@ a{color:inherit}
 .kopf nav a{font-family:var(--fd);font-weight:500;text-decoration:none;font-size:.98rem}
 .kopf nav a.check-link{background:var(--tinte);color:var(--kreide);padding:.5rem 1rem;border-radius:999px}
 @media (max-width:760px){.kopf nav a:not(.check-link){display:none}}
-@media (max-width:600px){.parade{gap:0;justify-content:space-between}.figur img{height:118px}.parade .figur:nth-child(6){display:none}.figur .blase{white-space:normal;width:9rem;text-align:center}}
 
 /* ---------- 1 · Hero ---------- */
 .hero{background:var(--sonne);padding-top:clamp(6rem,4rem + 6vw,9rem);padding-bottom:0;overflow:hidden;min-height:100svh;
@@ -198,19 +197,18 @@ html:not(.js) .stufe{min-height:0;padding-bottom:1.5rem}
 /* ---------- 4 · Fünf Sätze (Kacheln) ---------- */
 .stimme-jay .saetze h2{color:var(--kreide)}.stimme-jay .saetze .eyebrow{color:var(--sonne)}.stimme-jay .saetze .lead{color:#e9eaf6;font-size:var(--s1)}
 .kacheln{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-top:2.4rem}
-.kachel{perspective:900px;background:none;border:0;padding:0;cursor:pointer;min-height:13rem;text-align:left;font:inherit;color:inherit}
-.kachel .innen{position:relative;height:100%;min-height:13rem;transition:transform .7s cubic-bezier(.2,.7,.3,1);transform-style:preserve-3d}
-.kachel .vorn,.kachel .hinten{position:absolute;inset:0;border-radius:24px;padding:1.3rem;display:flex;flex-direction:column;justify-content:space-between;
-  -webkit-backface-visibility:hidden;backface-visibility:hidden}
+.kachel{display:flex;align-items:stretch;width:100%;perspective:900px;background:none;border:0;padding:0;cursor:pointer;text-align:left;font:inherit;color:inherit}
+.kachel .innen{display:grid;flex:1;transition:transform .7s cubic-bezier(.2,.7,.3,1);transform-style:preserve-3d}
+.kachel .vorn,.kachel .hinten{grid-area:1/1;border-radius:24px;padding:1.3rem;display:flex;flex-direction:column;justify-content:space-between;gap:.8rem;
+  min-height:12rem;-webkit-backface-visibility:hidden;backface-visibility:hidden}
 .kachel .vorn{background:var(--tinte);color:var(--kreide)}
 .kachel .hinten{background:var(--sonne);color:var(--tinte);transform:rotateY(180deg)}
-.kachel .gross{font-family:var(--fd);font-weight:700;font-size:var(--s2);line-height:1}
-.kachel .gross.erlauber{font-family:var(--fs);font-size:var(--s2)}
-.kachel .klein{font-size:var(--s-1);opacity:.85}
+.kachel .gross{display:block;font-family:var(--fd);font-weight:700;font-size:var(--s2);line-height:1.02}
+.kachel .gross.erlauber{font-family:var(--fs)}
+.kachel .klein{display:block;font-size:var(--s-1);opacity:.85}
 .kachel.dreht .innen{transform:rotateY(180deg)}
-html:not(.js) .kachel .innen{transform:none}
-html:not(.js) .kachel .vorn,html:not(.js) .kachel .hinten{position:relative;transform:none;min-height:6.5rem}
-html:not(.js) .kachel{min-height:0}
+html:not(.js) .kachel .innen{display:flex;flex-direction:column;gap:.5rem;transform:none}
+html:not(.js) .kachel .hinten{transform:none}
 .kachel:nth-child(2) .vorn{background:var(--tomate)}.kachel:nth-child(3) .vorn{background:var(--blau)}
 .kachel:nth-child(4) .vorn{background:var(--mint-tief)}.kachel:nth-child(5) .vorn{background:var(--rosa);color:var(--tinte)}
 
@@ -372,6 +370,25 @@ button.knopf:disabled{background:#b9b0a3;cursor:not-allowed;transform:none}
   .js .rv{opacity:1;transform:none}
 }
 @media print{.kopf{position:static}.js .rv{opacity:1;transform:none}}
+/* ---------- iPhone: steht am Ende, damit es die Grundregeln wirklich überschreibt ---------- */
+@media (max-width:600px){
+  .parade{gap:0;justify-content:center;padding-inline:.4rem}
+  .figur{flex:0 0 auto;margin-inline:-2px}
+  .figur img{height:clamp(96px,30vw,124px);width:auto;max-width:none}
+  .figur .blase{white-space:normal;width:8.5rem;text-align:center}
+  .parade .figur:first-child .blase{left:0;transform:translate(0,8px) scale(.8)}
+  .parade .figur:first-child.spricht .blase{transform:translate(0,0) scale(1)}
+  .parade .figur:last-child .blase{left:auto;right:0;transform:translate(0,8px) scale(.8)}
+  .parade .figur:last-child.spricht .blase{transform:translate(0,0) scale(1)}
+  .hero{min-height:auto}
+  .strasse{padding-top:2.4rem}
+  .wortzeichen{font-size:17vw}
+  .wortzeichen img{display:none}
+  .js .stufe .tafel{opacity:0}
+  .js .stufe.aktiv .tafel{opacity:1}
+  .buehne .anzeige{padding-top:12svh}
+}
+.schiene,.regal{scroll-padding-inline:max(1rem,calc((100vw - 1220px)/2))}
 </style>
 </head>
 <body>
