@@ -243,6 +243,18 @@ html:not(.js) .kachel .hinten{transform:none}
 .no-js-hinweis{font-size:var(--s-1);color:#ffe9e2;margin-top:1rem}
 .js .no-js-hinweis{display:none}
 
+
+/* ---------- Elterngespräch ---------- */
+.gespraech{margin-top:3rem;background:var(--kreide);color:var(--tinte);border-radius:28px;padding:clamp(1.4rem,1rem + 2vw,2.4rem);
+  display:grid;gap:1.6rem;box-shadow:0 20px 40px -18px rgba(60,10,0,.55)}
+@media (min-width:900px){.gespraech{grid-template-columns:.9fr 1.1fr}}
+.gespraech h3{font-size:var(--s2);margin-bottom:.6rem}
+.gespraech .grenze{font-size:var(--s-1);color:var(--tinte-2);border-left:4px solid var(--sonne);padding-left:.8rem}
+.gespraech .f input,.gespraech .f textarea{font:inherit;font-size:16px;color:var(--tinte);background:var(--papier);border:2px solid var(--linie);border-radius:12px;padding:.6rem .8rem;width:100%}
+.gespraech .f textarea{min-height:4.5rem;resize:vertical}
+.gespraech .f{margin-bottom:.8rem}
+.gespraech .einwilligung{margin-top:.4rem}
+
 /* ---------- 6 · Regal + Angebot ---------- */
 .regal-sek{background:var(--papier-2)}
 .regal{display:grid;grid-auto-flow:column;grid-auto-columns:min(62vw,250px);gap:1.8rem;overflow-x:auto;scroll-snap-type:x mandatory;
@@ -568,6 +580,7 @@ button.knopf:disabled{background:#b9b0a3;cursor:not-allowed;transform:none}
             <div class="knoepfe">
               <a class="knopf" href="#bestellen" id="erg-bestellen">Mit unserem Kind bestellen</a>
               <button class="knopf leise" type="button" id="erg-neu">Nochmal</button>
+              <a class="knopf leise" href="#gespraech">Lieber kurz sprechen</a>
             </div>
           </div>
         </div>
@@ -575,6 +588,29 @@ button.knopf:disabled{background:#b9b0a3;cursor:not-allowed;transform:none}
         <p class="no-js-hinweis">Die Fragen brauchen JavaScript. Ohne geht es genauso: Die fünf Figuren oben stehen mit ihrem Satz da — nehmt die, bei der ihr genickt habt.</p>
       </div>
       <div class="check-seite" aria-hidden="true"><img id="check-figur" src="img/fig-fuchs.webp" alt="" width="447" height="644"></div>
+    </div>
+    <div class="gespraech" id="gespraech">
+      <div>
+        <p class="eyebrow" style="color:var(--tomate);margin-bottom:.6rem">Lieber erst kurz sprechen?</p>
+        <h3>15 Minuten mit Jay. Kostenlos.</h3>
+        <p>Ihr seid unsicher, welche Geschichte passt, oder wollt wissen, wie ihr sie gut einsetzt? Schreibt mir kurz. Ich melde mich persönlich und schlage eine Zeit vor, per Telefon oder Video.</p>
+        <p>Und wenn ihr danach tiefer einsteigen wollt: Ich begleite Eltern auch im Coaching.</p>
+        <p class="grenze">Ein Gespräch unter Erwachsenen — keine Diagnose, keine Therapie. Wenn euch etwas ernsthaft Sorgen macht, ist die Kinderarztpraxis der richtige erste Weg.</p>
+      </div>
+      <form id="g-form" novalidate autocomplete="off">
+        <div class="f"><span>Euer Vorname (freiwillig)</span><input type="text" id="g-name" maxlength="80"></div>
+        <div class="f"><span>Eure E-Mail-Adresse</span><input type="email" id="g-email" maxlength="120" placeholder="ihr@beispiel.de" autocomplete="email"></div>
+        <div class="f"><span>Worum geht es euch? (freiwillig)</span><textarea id="g-msg" maxlength="1500" placeholder="Ein, zwei Sätze reichen."></textarea></div>
+        <div class="f"><span>Wann passt es euch meistens? (freiwillig)</span><input type="text" id="g-termin" maxlength="200" placeholder="z. B. abends nach 20 Uhr"></div>
+        <label class="einwilligung"><input type="checkbox" id="g-einwilligung">
+          <span>Ja, ihr dürft meine Angaben — Vorname, E-Mail, Anliegen, Zeitwunsch und, falls ich den Check gemacht habe, dessen Ergebnis (welches Muster) — über euren Übermittlungsdienst an jay@aivantum.com senden und nutzen, um mir ein Gespräch vorzuschlagen. Zeitpunkt und IP-Adresse der Einwilligung werden zum Nachweis gespeichert. Widerruf jederzeit (<a href="datenschutz.html#gespraech">Datenschutz</a>).</span></label>
+        <input class="honig" type="text" id="g-website" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <div class="knoepfe" style="margin-top:1rem">
+          <button type="button" class="knopf" id="g-senden" disabled>Gespräch anfragen</button>
+          <a class="knopf leise" id="g-mail" href="mailto:jay@aivantum.com?subject=Elterngespr%C3%A4ch%20%C2%B7%20Du%20bist%20okay">Per eigenem Mail-Programm</a>
+        </div>
+        <p class="status" id="g-status" hidden></p>
+      </form>
     </div>
   </div>
 </section>
@@ -1024,6 +1060,36 @@ button.knopf:disabled{background:#b9b0a3;cursor:not-allowed;transform:none}
     ta.select(); try { document.execCommand("copy"); btn.textContent = "Kopiert ✓"; } catch(e){ btn.textContent = "Markiert — jetzt kopieren"; }
     setTimeout(function(){ btn.textContent = "Code kopieren"; }, 2200);
   });
+
+
+  /* Elterngespräch: Formular → Worker (art "eltern"), mailto als Rückweg */
+  (function(){
+    var gE = $("g-einwilligung"), gB = $("g-senden"), gS = $("g-status");
+    function gCheck(){ return treffer ? ("Muster " + treffer.muster + " · " + (BUCH[treffer.muster] || [""])[0]) : ""; }
+    function gMail(){
+      $("g-mail").href = "mailto:jay@aivantum.com?subject=" + encodeURIComponent("Elterngespräch · Du bist okay") +
+        "&body=" + encodeURIComponent("Hallo Jay,\n\nwir würden gern kurz sprechen.\n\nWorum es geht: " + val("g-msg") +
+        "\nWann es passt: " + val("g-termin") + (gCheck() ? "\nCheck-Ergebnis: " + gCheck() : "") + "\n\nViele Grüße\n" + val("g-name"));
+    }
+    $("g-form").addEventListener("input", gMail); gMail();
+    $("g-form").addEventListener("submit", function(e){ e.preventDefault(); });
+    gE.addEventListener("change", function(){ gB.disabled = !gE.checked; });
+    function gMelde(t, ok){ gS.hidden = false; gS.textContent = t; gS.className = "status " + (ok ? "ok" : "nein"); }
+    gB.addEventListener("click", function(){
+      var email = val("g-email");
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ gMelde("Bitte gebt eine gültige E-Mail-Adresse ein — an sie geht meine Antwort.", false); return; }
+      gB.disabled = true; gB.textContent = "Wird gesendet …";
+      fetch("https://aivantum-check.aivantum.workers.dev/kontakt", {
+        method: "POST", headers: { "content-type": "application/json" },
+        body: JSON.stringify({ art: "eltern", email: email, name: val("g-name"), msg: val("g-msg"), termin: val("g-termin"), check: gCheck(),
+          einwilligung: true, einwilligung_zeit: new Date().toISOString(), source: location.host + location.pathname, website: val("g-website") })
+      }).then(function(r){ return r.ok ? r.json().catch(function(){ return {}; }) : { ok: false }; })
+      .then(function(d){
+        if (d && d.ok && d.leadMail === true){ gB.textContent = "Angefragt ✓"; gMelde("Angekommen! Eine Bestätigung ist unterwegs an " + email + ". Ich melde mich persönlich.", true); }
+        else { gB.disabled = false; gB.textContent = "Gespräch anfragen"; gMelde("Das hat gerade nicht geklappt — bei mir ist nichts angekommen. Nutzt bitte den Weg über euer Mail-Programm.", false); }
+      }).catch(function(){ gB.disabled = false; gB.textContent = "Gespräch anfragen"; gMelde("Keine Verbindung. Nutzt bitte den Weg über euer Mail-Programm.", false); });
+    });
+  })();
 
   /* Fuß: Bescheid geben per Mail-Programm, Adresse wandert in die Mail */
   $("bescheid-los").addEventListener("click", function(){
