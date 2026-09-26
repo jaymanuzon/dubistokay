@@ -646,7 +646,7 @@ button.knopf:disabled{background:#b9b0a3;cursor:not-allowed;transform:none}
         <h3>Personalisiert</h3>
         <p class="preis">21,90 €<small>&nbsp;zzgl. Versand¹</small></p>
         <ul>
-          <li>Name, Aussehen und eure Welt in der Geschichte — ein Kind wie eures oder ein Tier</li>
+          <li>Name, Aussehen und eure Welt in der Geschichte — ein Kind wie eures. Tier-Fassungen kommen bald; den Fuchs Oskar bei <em>Die Zeit im Teig</em> gibt es schon.</li>
           <li>Ganz vorn eine Seite, die nur euer Kind bekommt:</li>
         </ul>
         <div class="mini-blatt">Hallo liebe <span class="platz">Julia</span>,<br>wir hoffen, dass du viel Spaß hast mit diesem Buch und dass du dir deine kleine <span class="platz">quirlige Art</span> behältst.<br>Liebe Grüße, <span class="platz">deine Tante</span></div>
@@ -665,7 +665,7 @@ button.knopf:disabled{background:#b9b0a3;cursor:not-allowed;transform:none}
     <p class="lead rv" style="margin-top:1rem">Ohne Foto-Upload. Ihr wählt aus, wir zeichnen.</p>
     <ol class="schritte">
       <li class="schritt rv"><span class="nr">1</span><div><h3>Der Name</h3><p>Der Vorname eures Kindes steht im Buch — auf dem Namensschild, der Bude, dem Bett. Auf Wunsch mit Aussprache-Hinweis.</p></div></li>
-      <li class="schritt rv"><span class="nr">2</span><div><h3>Wer die Hauptrolle spielt</h3><p>Ein Kind wie eures — oder ein Tier. Beides trägt die Geschichte.</p>
+      <li class="schritt rv"><span class="nr">2</span><div><h3>Wer die Hauptrolle spielt</h3><p>Ein Kind wie eures. Als Tier gibt es die Geschichte bisher bei <em>Die Zeit im Teig</em> — Fuchs Oskar. Die anderen Tier-Fassungen kommen bald.</p>
         <div class="verwandlung"><img src="img/fig-mira.webp" alt="Mira als Mädchen" loading="lazy" width="404" height="793"><span>oder</span><img src="img/fig-fuchs.webp" alt="dieselbe Geschichte mit Fuchs Oskar" loading="lazy" width="447" height="644"></div></div></li>
       <li class="schritt rv"><span class="nr">3</span><div><h3>Das Aussehen</h3><p>Hautton, Haare, Frisur, Brille oder Hörgerät, Lieblingsfarbe — alles per Auswahl.</p></div></li>
       <li class="schritt rv"><span class="nr">4</span><div><h3>Eure Welt</h3><p>Stadt, Dorf oder Land — und wer im Buch die wichtigste Bezugsperson ist.</p></div></li>
@@ -721,7 +721,7 @@ button.knopf:disabled{background:#b9b0a3;cursor:not-allowed;transform:none}
           <div class="f" style="margin-top:1rem"><span>Wer spielt die Hauptrolle?</span>
             <div class="wahl" id="k-held">
               <label><input type="radio" name="held" value="kind" checked> ein Kind wie eures</label>
-              <label><input type="radio" name="held" value="tier"> ein Tier</label>
+              <label><input type="radio" name="held" value="tier"> ein Tier <small>(bisher nur bei „Die Zeit im Teig“)</small></label>
             </div></div>
           <div class="reihe-2" id="k-aussehen" style="margin-top:1rem">
             <div class="f"><span>Hautton</span><select id="k-hautton"><option value="">—</option><option>hell</option><option>mittel</option><option>dunkel</option><option>sehr dunkel</option></select></div>
@@ -732,7 +732,8 @@ button.knopf:disabled{background:#b9b0a3;cursor:not-allowed;transform:none}
             <div class="f"><span>Lieblingsfarbe (Kleidung)</span><input type="text" id="k-farbe" maxlength="30" placeholder="grün"></div>
           </div>
           <div class="reihe-2" id="k-tier" style="margin-top:1rem" hidden>
-            <div class="f"><span>Welches Tier?</span><select id="k-tierart"><option value="">—</option><option>kleiner Bär</option><option>kleiner Fuchs</option><option>kleine Füchsin</option><option>kleiner Hase</option><option>kleiner Waschbär</option></select></div>
+            <div class="f"><span>Welches Tier?</span><select id="k-tierart"><option value="">—</option><option>kleiner Fuchs</option><option>kleine Füchsin</option></select></div>
+            <p class="hinweis" style="grid-column:1/-1;margin:0">Die Tier-Fassung gibt es bisher nur für <em>Die Zeit im Teig</em>. Bär, Hase, Otter und Dachs für die anderen Bücher kommen bald — wer sie will, merkt sich am besten vor, wir melden uns.</p>
           </div>
           <div class="reihe-2" style="margin-top:1rem">
             <div class="f"><span>Wo spielt die Geschichte?</span><select id="k-setting"><option value="">—</option><option value="stadt">Stadt</option><option value="dorf">Dorf</option><option value="land">Land</option></select></div>
